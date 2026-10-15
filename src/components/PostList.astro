@@ -1,0 +1,30 @@
+---
+import { categories } from '../data/categories'
+import { formatDate } from '../i18n'
+import { postUrl, type Post } from '../posts'
+
+interface Props { posts: Post[] }
+const { posts } = Astro.props
+const categoryName = (slug: string) => categories.find(category => category.slug === slug)?.name ?? slug
+---
+
+<ul class="posts">
+  {posts.map(post => (
+    <li>
+      <a class="card" href={postUrl(post)}>
+        <span class="meta">
+          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time> · {categoryName(post.data.category)}
+        </span>
+        <h3>{post.data.title}</h3>
+        <p class="muted">{post.data.description}</p>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .posts { list-style: none; display: grid; gap: 12px; }
+  a { display: block; padding: 20px; }
+  .meta { font: 0.75rem var(--font-mono); color: var(--fg-muted); }
+  h3 { font: 700 1.1rem var(--font-display); margin: 6px 0; }
+</style>

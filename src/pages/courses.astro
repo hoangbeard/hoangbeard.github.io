@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro'
+import ComingSoon from '../components/ComingSoon.astro'
+import { courses } from '../data/courses'
+---
+
+<Base title="Courses" description="Free, hands-on security courses with labs.">
+  <h1 class="shine">Courses</h1>
+  <p class="muted intro">Free, hands-on courses. Each module comes with a lab you can run on your own machine.</p>
+  <ul class="list">
+    {courses.map(course => (
+      <li class="card">
+        <div class="top">
+          <h2>{course.url ? <a href={course.url}>{course.title}</a> : course.title}</h2>
+          {!course.url && <ComingSoon />}
+        </div>
+        <p class="muted">{course.summary}</p>
+        <ul class="topics">{course.topics.map(topic => <li class="tag">{topic}</li>)}</ul>
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  .intro { margin: 10px 0 28px; max-width: 34em; }
+  .list { list-style: none; display: grid; gap: 12px; }
+  .list > li { padding: 22px; display: grid; gap: 10px; }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .topics { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+</style>

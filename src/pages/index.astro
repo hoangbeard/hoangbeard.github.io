@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro'
+import PostList from '../components/PostList.astro'
+import ComingSoon from '../components/ComingSoon.astro'
+import { categories } from '../data/categories'
+import { publishedPosts } from '../posts'
+
+const latest = (await publishedPosts()).slice(0, 5)
+---
+
+<Base>
+  <section class="hero">
+    <p class="eyebrow prompt">Security · DevSecOps · AI Security</p>
+    <h1 class="shine">Practical security for people who build and run software.</h1>
+    <p class="muted">
+      Tutorials, labs, tips and tools on DevSecOps, cloud security and AI security. Written by an engineer, for
+      engineers.
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="/blog/">Read the blog</a>
+      <a class="btn" href="/projects/">See the projects</a>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Latest posts</h2>
+    {latest.length > 0 ? (
+      <PostList posts={latest} />
+    ) : (
+      <div class="card empty">
+        <p>The first posts are on their way. Here is what you will find:</p>
+        <ul class="chips">
+          {categories.map(category => <li><a class="chip" href={`/blog/${category.slug}/`}>{category.name}</a></li>)}
+        </ul>
+        <ComingSoon />
+      </div>
+    )}
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 24px 0 48px; border-bottom: 1px solid var(--gold-line); margin-bottom: 40px; }
+  .hero h1 { margin: 14px 0 16px; max-width: 16em; text-wrap: balance; }
+  .hero p.muted { max-width: 34em; font-size: 1.08rem; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+  .section-title { margin-bottom: 16px; }
+  .empty { padding: 24px; display: grid; gap: 16px; justify-items: start; }
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+</style>

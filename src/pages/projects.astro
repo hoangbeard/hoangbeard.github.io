@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro'
+import ComingSoon from '../components/ComingSoon.astro'
+import { projectGroups } from '../data/projects'
+
+const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+---
+
+<Base title="Projects" description="Open-source projects on DevSecOps, cloud, security labs and AI security.">
+  <h1 class="shine">Projects</h1>
+  <p class="muted intro">Open-source repositories, grouped by topic. Each one goes public once it is cleaned up and documented.</p>
+  <nav class="jump" aria-label="Project groups">
+    {projectGroups.map(group => <a class="chip" href={`#${slug(group.name)}`}>{group.name}</a>)}
+  </nav>
+  {projectGroups.map(group => (
+    <section id={slug(group.name)}>
+      <h2>{group.name}</h2>
+      <p class="muted summary">{group.summary}</p>
+      <ul class="grid">
+        {group.projects.map(project => (
+          <li class="card">
+            <div class="top">
+              <h3>{project.url ? <a href={project.url}>{project.name}</a> : project.name}</h3>
+              {!project.url && <ComingSoon />}
+            </div>
+            <p class="muted">{project.summary}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>
+
+<style>
+  .intro { margin: 10px 0 20px; max-width: 34em; }
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  section { margin-top: 40px; scroll-margin-top: 80px; }
+  section h2 { color: var(--gold); text-shadow: 0 0 14px rgba(212, 175, 55, 0.3); }
+  .summary { margin: 4px 0 14px; font-size: 0.95rem; }
+  .grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+  li { padding: 18px; display: grid; gap: 8px; align-content: start; }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+  h3 { font: 600 0.98rem var(--font-mono); }
+  p { font-size: 0.92rem; }
+</style>

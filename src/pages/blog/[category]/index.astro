@@ -1,0 +1,34 @@
+---
+import Base from '../../../layouts/Base.astro'
+import CategoryNav from '../../../components/CategoryNav.astro'
+import ComingSoon from '../../../components/ComingSoon.astro'
+import PostList from '../../../components/PostList.astro'
+import { categories } from '../../../data/categories'
+import { publishedPosts } from '../../../posts'
+
+export function getStaticPaths() {
+  return categories.map(category => ({ params: { category: category.slug }, props: { category } }))
+}
+
+const { category } = Astro.props
+const posts = await publishedPosts(category.slug)
+---
+
+<Base title={category.name} description={category.summary}>
+  <h1 class="shine">{category.name}</h1>
+  <p class="muted intro">{category.summary}</p>
+  <CategoryNav current={category.slug} />
+  {posts.length > 0 ? (
+    <PostList posts={posts} />
+  ) : (
+    <div class="card empty">
+      <ComingSoon />
+      <p class="muted">Nothing here yet. Follow the <a href="/rss.xml">RSS feed</a> to hear when the first post goes up.</p>
+    </div>
+  )}
+</Base>
+
+<style>
+  .intro { margin-top: 10px; max-width: 34em; }
+  .empty { padding: 24px; display: grid; gap: 12px; justify-items: start; }
+</style>

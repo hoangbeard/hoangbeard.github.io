@@ -1,0 +1,36 @@
+---
+import { enabledLanguages, type Lang } from '../i18n'
+
+interface Props { current: Lang }
+const { current } = Astro.props
+---
+
+{enabledLanguages.length > 1 && (
+  <details class="lang">
+    <summary aria-label="Change language">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
+      <span>{enabledLanguages.find(lang => lang.code === current)?.label}</span>
+    </summary>
+    <ul>
+      {enabledLanguages.map(lang => (
+        <li>
+          <a href={lang.code === 'en' ? '/' : `/${lang.code}/`} hreflang={lang.code} aria-current={lang.code === current ? 'true' : undefined}>
+            <b>{lang.label}</b> {lang.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </details>
+)}
+
+<style>
+  .lang { position: relative; }
+  summary { list-style: none; display: flex; align-items: center; gap: 5px; cursor: pointer; color: var(--fg-2); font: 600 0.75rem var(--font-mono); padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--fg); border-color: var(--gold-dark); }
+  svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+  ul { position: absolute; right: 0; top: calc(100% + 6px); list-style: none; background: var(--elevated); border: 1px solid var(--border); border-radius: 6px; padding: 4px; min-width: 150px; }
+  a { display: block; padding: 6px 10px; border-radius: 4px; color: var(--fg-2); font-size: 0.88rem; }
+  a:hover, a[aria-current] { background: var(--gold-dim); color: var(--fg); text-decoration: none; }
+  b { font: 600 0.72rem var(--font-mono); color: var(--gold-dark); margin-right: 6px; }
+</style>

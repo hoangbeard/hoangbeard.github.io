@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro'
+import CategoryNav from '../../components/CategoryNav.astro'
+import ComingSoon from '../../components/ComingSoon.astro'
+import PostList from '../../components/PostList.astro'
+import { categories } from '../../data/categories'
+import { publishedPosts } from '../../posts'
+
+const posts = await publishedPosts()
+const countIn = (slug: string) => posts.filter(post => post.data.category === slug).length
+---
+
+<Base title="Blog" description="Articles, tutorials, tips, labs, a knowledge base and news on security engineering.">
+  <h1 class="shine">Blog</h1>
+  <p class="muted intro">Notes from hands-on security work, sorted by type so you can find what you need.</p>
+  <CategoryNav />
+  {posts.length > 0 ? (
+    <PostList posts={posts} />
+  ) : (
+    <ul class="grid">
+      {categories.map(category => (
+        <li>
+          <a class="card" href={`/blog/${category.slug}/`}>
+            <h2>{category.name}</h2>
+            <p class="muted">{category.summary}</p>
+            {countIn(category.slug) === 0 && <ComingSoon />}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
+
+<style>
+  .intro { margin-top: 10px; max-width: 34em; }
+  .grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+  a { display: grid; gap: 8px; justify-items: start; align-content: start; height: 100%; padding: 18px; }
+  h2 { font-size: 1.05rem; }
+  p { font-size: 0.93rem; }
+</style>

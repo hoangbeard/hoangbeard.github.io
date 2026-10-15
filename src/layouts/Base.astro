@@ -1,0 +1,109 @@
+---
+import '../styles/global.css'
+import LangSwitch from '../components/LangSwitch.astro'
+import Logo from '../components/Logo.astro'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const { title, description = 'Articles, labs and tools on DevSecOps, cloud security and AI security.' } = Astro.props
+const pageTitle = title ? `${title} · HoangBeard` : 'HoangBeard · Security, DevSecOps, AI Security'
+const nav = [
+  { href: '/blog/', label: 'Blog' },
+  { href: '/courses/', label: 'Courses' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/about/', label: 'About' },
+]
+const isActive = (href: string) => Astro.url.pathname.startsWith(href)
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="alternate" type="application/rss+xml" title="HoangBeard" href="/rss.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800&family=DM+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="container nav" aria-label="Main">
+        <a class="brand" href="/" aria-label="HoangBeard home"><Logo /></a>
+        <div class="right">
+          <ul>
+            {nav.map(item => (
+              <li><a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+            ))}
+          </ul>
+          <LangSwitch current="en" />
+        </div>
+      </nav>
+    </header>
+    <main class="container">
+      <slot />
+    </main>
+    <footer class="container footer">
+      <span>© {new Date().getFullYear()} Pham Huy Hoang</span>
+      <span>
+        <a href="https://github.com/hoangbeard">GitHub</a> ·
+        <a href="https://www.linkedin.com/in/hoangbeard/">LinkedIn</a> ·
+        <a href="/rss.xml">RSS</a>
+      </span>
+    </footer>
+    <script>
+      // Feed the cursor position to .card so its spotlight follows the pointer.
+      document.addEventListener('pointermove', event => {
+        const card = (event.target as Element | null)?.closest<HTMLElement>('.card')
+        if (!card) return
+        const box = card.getBoundingClientRect()
+        card.style.setProperty('--mx', `${event.clientX - box.left}px`)
+        card.style.setProperty('--my', `${event.clientY - box.top}px`)
+      })
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.75));
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--gold-line);
+    box-shadow: 0 1px 24px -12px rgba(212, 175, 55, 0.25);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; min-height: 60px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
+  .brand { display: flex; color: var(--fg); }
+  .brand:hover { text-decoration: none; }
+  .right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  ul { display: flex; gap: 18px; list-style: none; flex-wrap: wrap; }
+  ul a { position: relative; color: var(--fg-2); font-size: 0.93rem; padding: 4px 0; }
+  ul a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    box-shadow: var(--glow); transform: scaleX(0); transition: transform 240ms var(--ease);
+  }
+  ul a:hover, ul a[aria-current] { color: var(--fg); text-decoration: none; text-shadow: 0 0 12px rgba(212, 175, 55, 0.35); }
+  ul a:hover::after, ul a[aria-current]::after { transform: scaleX(1); }
+  main { padding-top: 48px; padding-bottom: 64px; }
+  .footer {
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    border-top: 1px solid var(--gold-line); padding-top: 24px; padding-bottom: 32px;
+    color: var(--fg-muted); font-size: 0.85rem;
+  }
+  .footer a { color: var(--fg-2); }
+</style>
