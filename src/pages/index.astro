@@ -39,7 +39,8 @@ const latest = (await publishedPosts()).slice(0, 5)
 </Base>
 
 <style>
-  .hero { padding: 24px 0 48px; border-bottom: 1px solid var(--gold-line); margin-bottom: 40px; }
+  .hero { position: relative; padding: 24px 0 48px; margin-bottom: 40px; }
+  .hero::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: linear-gradient(90deg, var(--gold), rgba(212, 175, 55, 0.25) 60%, transparent); box-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
   .hero h1 { margin: 14px 0 16px; max-width: 16em; text-wrap: balance; }
   .hero p.muted { max-width: 34em; font-size: 1.08rem; }
   .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }

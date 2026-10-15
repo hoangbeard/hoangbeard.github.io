@@ -2,6 +2,7 @@
 import '../styles/global.css'
 import LangSwitch from '../components/LangSwitch.astro'
 import Logo from '../components/Logo.astro'
+import SocialLinks from '../components/SocialLinks.astro'
 
 interface Props {
   title?: string
@@ -55,13 +56,11 @@ const isActive = (href: string) => Astro.url.pathname.startsWith(href)
     <main class="container">
       <slot />
     </main>
-    <footer class="container footer">
-      <span>© {new Date().getFullYear()} Pham Huy Hoang</span>
-      <span>
-        <a href="https://github.com/hoangbeard">GitHub</a> ·
-        <a href="https://www.linkedin.com/in/hoangbeard/">LinkedIn</a> ·
-        <a href="/rss.xml">RSS</a>
-      </span>
+    <footer class="site-footer">
+      <div class="container footer">
+        <span>© {new Date().getFullYear()} Pham Huy Hoang · HoangBeard</span>
+        <SocialLinks />
+      </div>
     </footer>
     <script>
       // Feed the cursor position to .card so its spotlight follows the pointer.
@@ -83,9 +82,21 @@ const isActive = (href: string) => Astro.url.pathname.startsWith(href)
     z-index: 10;
     background: linear-gradient(180deg, rgba(6, 7, 9, 0.92), rgba(6, 7, 9, 0.75));
     backdrop-filter: blur(14px) saturate(140%);
-    border-bottom: 1px solid var(--gold-line);
-    box-shadow: 0 1px 24px -12px rgba(212, 175, 55, 0.25);
+    box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.9);
   }
+  /* Glowing hairline under the header and above the footer */
+  .site-header::after,
+  .site-footer::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.25) 15%, var(--gold-bright) 50%, rgba(212, 175, 55, 0.25) 85%, transparent);
+    box-shadow: 0 0 8px rgba(245, 211, 107, 0.55), 0 0 22px rgba(212, 175, 55, 0.3);
+  }
+  .site-header::after { bottom: -1px; }
+  .site-footer::before { top: 0; }
   .nav { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; min-height: 60px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
   .brand { display: flex; color: var(--fg); }
   .brand:hover { text-decoration: none; }
@@ -99,11 +110,16 @@ const isActive = (href: string) => Astro.url.pathname.startsWith(href)
   }
   ul a:hover, ul a[aria-current] { color: var(--fg); text-decoration: none; text-shadow: 0 0 12px rgba(212, 175, 55, 0.35); }
   ul a:hover::after, ul a[aria-current]::after { transform: scaleX(1); }
-  main { padding-top: 48px; padding-bottom: 64px; }
+  /* Footer sticks to the bottom of the screen on short pages */
+  :global(body) { display: flex; flex-direction: column; }
+  main { flex: 1 0 auto; width: 100%; padding-top: 48px; padding-bottom: 64px; }
+  .site-footer {
+    position: relative;
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.04), transparent 70%);
+  }
   .footer {
-    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    border-top: 1px solid var(--gold-line); padding-top: 24px; padding-bottom: 32px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap;
+    padding-top: 22px; padding-bottom: 26px;
     color: var(--fg-muted); font-size: 0.85rem;
   }
-  .footer a { color: var(--fg-2); }
 </style>
