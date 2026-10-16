@@ -20,7 +20,11 @@ export const projectGroups: ProjectGroup[] = [
         name: 'devsecops-pipelines',
         summary: 'Ready-to-use security steps for GitLab CI, Jenkins, GitHub Actions and Bitbucket, with results sent to DefectDojo.',
       },
-      { name: 'argocd-gitops', summary: 'An Argo CD setup using the app-of-apps pattern, from first install to daily operations.' },
+      {
+        name: 'argocd-gitops',
+        summary: 'An Argo CD setup using the app-of-apps pattern, from first install to daily operations.',
+        url: 'https://github.com/hoangbeard/argocd-gitops',
+      },
       { name: 'secure-base-images', summary: 'Hardened container base images, scanned with Trivy, with an SBOM and a Cosign signature.' },
       { name: 'jenkins-platform', summary: 'Jenkins as code: Docker-in-Docker, monitoring, an AWS ECS deployment and a shared library.' },
     ],
