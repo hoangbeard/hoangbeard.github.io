@@ -62,7 +62,13 @@ export const projectGroups: ProjectGroup[] = [
   {
     name: 'Tools',
     summary: 'Small tools that solve one problem well.',
-    projects: [{ name: 'awsce', summary: 'See where your AWS money goes, from the command line or as a scheduled report.' }],
+    projects: [
+      {
+        name: 'awsce',
+        summary: 'See where your AWS money goes and where to save, from the command line. On PyPI.',
+        url: 'https://github.com/hoangbeard/awsce',
+      },
+    ],
   },
   {
     name: 'Products',
