@@ -68,6 +68,11 @@ export const projectGroups: ProjectGroup[] = [
         summary: 'See where your AWS money goes and where to save, from the command line. On PyPI.',
         url: 'https://github.com/hoangbeard/awsce',
       },
+      {
+        name: 'career-intelligence',
+        summary: 'AI skills for Claude Code, Codex and Cursor that help you review job posts, compare offers and tailor your CV.',
+        url: 'https://github.com/hoangbeard/career-intelligence',
+      },
     ],
   },
   {
@@ -75,10 +80,6 @@ export const projectGroups: ProjectGroup[] = [
     summary: 'Open-core products built under @hoangbeard-labs.',
     projects: [
       { name: 'rexbloom', summary: 'A personal finance app that turns everyday spending data into a simple plan.' },
-      {
-        name: 'rexcareer',
-        summary: 'AI skills for Claude Code, Codex and Cursor that help you review job posts, compare offers and tailor your CV.',
-      },
     ],
   },
 ]
